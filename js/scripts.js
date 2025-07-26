@@ -20,14 +20,33 @@ class Calculator {
 
     // Process all calculator operations
     processOperation(operation){
-
+        //Check if current is emempty
+        if(this.currentOperationText === ""){
+            // Change operation
+            if(this.previousOperationText.innerText !== ""){
+            this.changeOperation(operation);
+            }
+            return;
+        }
         // Get current and previous value
         let operationValue;
-        const previous = +this.previousOperationText.innerText;
+        const previous = +this.previousOperationText.innerText.split(" ")[0];
         const current = +this.currentOperationText.innerText;
 
         switch(operation){
         case "+":
+            operationValue = previous + current
+            this.updateScreen(operationValue, operation, current, previous);
+            break;
+              case "-":
+            operationValue = previous + current
+            this.updateScreen(operationValue, operation, current, previous);
+            break;
+              case "/":
+            operationValue = previous + current
+            this.updateScreen(operationValue, operation, current, previous);
+            break;
+              case "*":
             operationValue = previous + current
             this.updateScreen(operationValue, operation, current, previous);
             break;
@@ -51,8 +70,25 @@ class Calculator {
         if(operationValue === null){
             this.currentOperationText.innerText += this.currentOperation;
         } else {
-            //check if value is zero
+            //check if value is zero,if  it is just add current value
+            if(previous === 0){
+                operationValue = current
+            }
+
+            //Add current value to previous
+            this.previousOperationText.innerText = `${operationValue} ${operation}`;
+            this.currentOperationText.innerText = "";
+
         }
+    }
+    // Change math operation
+    changeOperation(operation){
+        const mathOperations = ["*","/","+","-"]
+        if(!mathOperations.includes(operation)){
+            return
+        }
+        //123 Operations
+        this.previousOperationText.innerText = this.previousOperationText.innerText.slice(0, -1) + operation;
     }
 }
 
